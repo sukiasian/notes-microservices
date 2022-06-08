@@ -1,0 +1,17 @@
+{
+    "noImplicitThis": "false",
+    "compilerOptions": {
+        "rootDir": "",
+        "outDir": "dist",
+        "moduleResolution": "node",
+        "module": "commonjs",
+        "experimentalDecorators": true,
+        "emitDecoratorMetadata": true,
+        "target": "es2017",
+        "typeRoots": [
+            "node_modules/@types",
+            "node_modules/sequelize-typescript"
+        ],
+        "types": ["jest"]
+    }
+}
