@@ -36,6 +36,7 @@ export abstract class AbstractUserController {
     getUserById: (req, res, next) => Promise<void>;
     editUser: (req, res, next) => Promise<void>;
     deleteUser: (req, res, next) => Promise<void>;
+    getAllEmails: (req, res, next) => Promise<void>;
 }
 
 export abstract class AbstractDao {
@@ -47,4 +48,5 @@ export abstract class AbstractDao {
     getUserById: (userId: string) => Promise<User>;
     editUser: (userId: string, data: EditUserData) => Promise<void>;
     deleteUser: (data: DeleteUserData) => Promise<void>;
+    getAllEmails: () => Promise<string[]>;
 }

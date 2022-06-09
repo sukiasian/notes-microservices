@@ -1,23 +1,23 @@
-import * as express from "express";
-import * as faker from "faker";
-import * as jwt from "jsonwebtoken";
-import { AppConfig } from "../AppConfig";
-import informationalLogger from "../loggers/informationalLogger";
-import { Sequelize } from "sequelize-typescript";
-import connectToDb from "../database/connectToDb";
-import { UserCreationAttributes } from "../User";
-import EnvironmentConfig from "../configurations/EnvironmentConfig";
+import * as express from 'express';
+import * as faker from 'faker';
+import * as jwt from 'jsonwebtoken';
+import AppConfig from '../AppConfig';
+import informationalLogger from '../loggers/informationalLogger';
+import { Sequelize } from 'sequelize-typescript';
+import connectToDb from '../database/connectToDb';
+import { UserCreationAttributes } from '../User';
+import EnvironmentConfig from '../configurations/EnvironmentConfig';
 
 const environmentConfig = new EnvironmentConfig();
 
-environmentConfig.configure("./.env.test");
+environmentConfig.configure('./.env.test');
 
 export default class TestLib {
     private faker = faker;
 
     public startServer = (app: express.Application): object => {
         return app.listen(process.env.PORT, () => {
-            informationalLogger.info("Test server is listening");
+            informationalLogger.info('Test server is listening');
         });
     };
 
@@ -32,7 +32,7 @@ export default class TestLib {
     public closeDb = async (sequelize: Sequelize): Promise<void> => {
         await sequelize.close();
 
-        informationalLogger.info("Database connection is closed");
+        informationalLogger.info('Database connection is closed');
     };
 
     public clearDb = (sequelize: Sequelize): void => {
@@ -44,7 +44,7 @@ export default class TestLib {
     };
 
     public createFakeUserData = (): UserCreationAttributes => {
-        const password = "testtestpass";
+        const password = 'testtestpass';
 
         return {
             firstName: this.faker.name.firstName(),
@@ -56,15 +56,11 @@ export default class TestLib {
         };
     };
 
-    public createTokenAndSign = <T extends object | string>(
-        payload: T
-    ): string => {
+    public createTokenAndSign = <T extends object | string>(payload: T): string => {
         return jwt.sign(payload, process.env.JWT_SECRET_KEY);
     };
 
-    public openTestEnv = async (
-        appConfig: AppConfig
-    ): Promise<{ server: object }> => {
+    public openTestEnv = async (appConfig: AppConfig): Promise<{ server: object }> => {
         appConfig.setupPassport();
         appConfig.configure();
 
@@ -77,10 +73,7 @@ export default class TestLib {
         };
     };
 
-    public closeTestEnv = async (
-        sequelize: Sequelize,
-        server: any
-    ): Promise<void> => {
+    public closeTestEnv = async (sequelize: Sequelize, server: any): Promise<void> => {
         await this.closeDb(sequelize);
         await this.closeServer(server);
     };

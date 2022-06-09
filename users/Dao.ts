@@ -9,26 +9,37 @@ export class Dao extends AbstractDao implements AbstractDao {
         return this.userModel;
     }
 
-    createUser = async (data: CreateUserData) => {
+    public createUser = async (data: CreateUserData) => {
         return this.model.create(data, {
             fields: createUserFields,
         });
     };
 
-    getUserById = async (id: string) => {
+    public getUserById = async (id: string) => {
         return this.findById(id);
     };
 
-    editUser = async (userId: string, data: EditUserData) => {
+    public editUser = async (userId: string, data: EditUserData) => {
         const user = await this.findById(userId);
 
         await user.update(data, { fields: editUserFields });
     };
 
-    deleteUser = async (data: DeleteUserData) => {
+    public deleteUser = async (data: DeleteUserData) => {
         const user = await this.findById(data.id);
 
         user.destroy();
+    };
+
+    public getAllEmails = async () => {
+        const users = await this.model.findAll();
+        let emails: string[];
+
+        users.forEach((user) => {
+            emails.push(user.email);
+        });
+
+        return emails;
     };
 }
 

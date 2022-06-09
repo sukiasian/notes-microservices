@@ -9,7 +9,7 @@ import userRouter from './routers/UserRouterConfig';
 import authRouter from './routers/AuthRouterConfig';
 import { passportConfig, PassportConfig } from './configurations/PassportConfig';
 
-export class AppConfig implements AbstractAppConfig {
+export default class AppConfig implements AbstractAppConfig {
     private readonly passportConfig: PassportConfig = passportConfig;
     public readonly app: express.Application = express();
     public readonly sequelize: Sequelize = new Sequelize({

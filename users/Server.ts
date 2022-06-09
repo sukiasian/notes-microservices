@@ -1,4 +1,4 @@
-import { AppConfig } from './AppConfig';
+import AppConfig from './AppConfig';
 import * as process from 'process';
 import UtilFunctions from './utils/UtilFunctions';
 import databaseConnection from './database/connectToDb';
