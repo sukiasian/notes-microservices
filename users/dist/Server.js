@@ -1,29 +1,33 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.appConfig = void 0;
 const AppConfig_1 = require("./AppConfig");
-const process = require("process");
 const UtilFunctions_1 = require("./utils/UtilFunctions");
 const connectToDb_1 = require("./database/connectToDb");
-const enums_1 = require("./typization/enums");
 const informationalLogger_1 = require("./loggers/informationalLogger");
+const EnvironmentConfig_1 = require("./configurations/EnvironmentConfig");
 class Server {
     constructor() {
-        this.appConfig = AppConfig_1.appConfig;
-        this.app = AppConfig_1.appConfig.app;
-        this.PORT = process.env.PORT || 8000;
+        this.appConfig = exports.appConfig;
+        this.app = exports.appConfig.app;
+        this.PORT = process.env.PORT || 5000;
         this.informationalLogger = informationalLogger_1.default;
         this.utilFunctions = UtilFunctions_1.default;
         this.start = async () => {
             await connectToDb_1.default(this.appConfig.sequelize);
             const server = this.app.listen(this.PORT, () => {
                 this.informationalLogger.info(`Server is listening on ${this.PORT}`);
-                if (process.env.NODE_ENV === enums_1.NodeEnvs.PRODUCTION) {
-                    process.send("Server is ready.");
-                }
             });
             this.utilFunctions.exitHandler(server, this.appConfig.sequelize);
         };
     }
 }
+const environmentConfig = new EnvironmentConfig_1.default();
+environmentConfig.configure();
+exports.appConfig = new AppConfig_1.default();
+exports.appConfig.setupPassport();
+exports.appConfig.configure();
+console.log(process.env.KAFKA_BROKER);
+exports.appConfig.startConsumptionForActiveProducers();
 const server = new Server();
 server.start();

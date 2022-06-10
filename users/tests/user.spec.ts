@@ -4,7 +4,7 @@ import { Sequelize } from 'sequelize-typescript';
 import { User, UserCreationAttributes } from '../User';
 import TestLib from './TestLib';
 import { HttpStatus, Routes } from '../typization/enums';
-import { AppConfig } from '../AppConfig';
+import AppConfig from '../AppConfig';
 
 describe('User (e2e)', () => {
     const appConfig = new AppConfig();

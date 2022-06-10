@@ -82,5 +82,5 @@ export enum PassportStrategies {
 }
 
 export enum Routes {
-    NOTES = 'notes',
+    NOTES = '/api/v1/notes',
 }

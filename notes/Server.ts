@@ -1,5 +1,4 @@
 import AppConfig from './AppConfig';
-import * as process from 'process';
 import UtilFunctions from './utils/UtilFunctions';
 import databaseConnection from './database/connectToDb';
 import { AbstractServer } from './typization/abstractClasses';
@@ -21,10 +20,6 @@ class Server implements AbstractServer {
 
         const server = this.app.listen(this.PORT, () => {
             this.informationalLogger.info(`Server is listening on ${this.PORT}`);
-
-            if (process.env.NODE_ENV === NodeEnvs.PRODUCTION) {
-                process.send('Server is ready.');
-            }
         });
 
         this.utilFunctions.exitHandler(server, this.appConfig.sequelize);
@@ -33,7 +28,7 @@ class Server implements AbstractServer {
 
 const environmentConfig = new EnvironmentConfig();
 
-environmentConfig.configure('./.env');
+environmentConfig.configure();
 
 export const appConfig = new AppConfig();
 

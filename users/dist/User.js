@@ -15,25 +15,17 @@ const sequelize_typescript_1 = require("sequelize-typescript");
 const enums_1 = require("./typization/enums");
 const AppError_1 = require("./utils/AppError");
 const enums_2 = require("./typization/enums");
-const defaultScopeFieldsToExclude = ["password", "passwordConfirmation"];
+const defaultScopeFieldsToExclude = ['password', 'passwordConfirmation'];
 exports.createUserFields = [
-    "firstName",
-    "middleName",
-    "lastName",
-    "password",
-    "passwordConfirmation",
-    "email",
+    'firstName',
+    'middleName',
+    'lastName',
+    'password',
+    'passwordConfirmation',
+    'email',
 ];
-exports.editUserFields = [
-    "firstName",
-    "middleName",
-    "lastName",
-    "email",
-];
-exports.editPasswordFields = [
-    "password",
-    "passwordConfirmation",
-];
+exports.editUserFields = ['firstName', 'middleName', 'lastName', 'email'];
+exports.editPasswordFields = ['password', 'passwordConfirmation'];
 let User = class User extends sequelize_typescript_1.Model {
     static async hashPasswordAndRemovePasswordConfirmation(instance) {
         if (instance.password) {
@@ -62,7 +54,7 @@ __decorate([
         validate: {
             len: {
                 msg: enums_1.ErrorMessages.NAMES_LENGHT_VALIDATION,
-                args: [2, 25],
+                args: [1, 25],
             },
             notNull: {
                 msg: enums_1.ErrorMessages.REQUIRED_FIELDS_VALIDATION,
@@ -77,7 +69,7 @@ __decorate([
         validate: {
             len: {
                 msg: enums_1.ErrorMessages.NAMES_LENGHT_VALIDATION,
-                args: [2, 25],
+                args: [1, 25],
             },
             notNull: {
                 msg: enums_1.ErrorMessages.REQUIRED_FIELDS_VALIDATION,
@@ -98,7 +90,7 @@ __decorate([
             },
         },
         unique: {
-            name: "email",
+            name: 'email',
             msg: enums_1.ErrorMessages.UNIQUE_EMAIL_VALIDATION,
         },
     }),
@@ -130,7 +122,7 @@ __decorate([
         validate: {
             len: {
                 msg: enums_1.ErrorMessages.NAMES_LENGHT_VALIDATION,
-                args: [5, 25],
+                args: [1, 25],
             },
         },
     }),
@@ -155,7 +147,7 @@ User = __decorate([
             [enums_2.ModelScopes.WITH_SENSITIVE]: {
                 attributes: {
                     exclude: defaultScopeFieldsToExclude,
-                    include: ["password"],
+                    include: ['password'],
                 },
             },
             [enums_2.ModelScopes.ALL]: {

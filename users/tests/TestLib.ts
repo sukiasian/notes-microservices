@@ -10,7 +10,7 @@ import EnvironmentConfig from '../configurations/EnvironmentConfig';
 
 const environmentConfig = new EnvironmentConfig();
 
-environmentConfig.configure('./.env.test');
+environmentConfig.configure();
 
 export default class TestLib {
     private faker = faker;

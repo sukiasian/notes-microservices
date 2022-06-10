@@ -1,4 +1,3 @@
-setInterval(() => {
-    // kafka.send writestream. должно отправляться название операции или
-    // что то типа этого чтобы на стороне кафки это выполнялось
-}, 1000);
+// accept from kafka emails
+// send emails
+setInterval(() => {}, 1000);

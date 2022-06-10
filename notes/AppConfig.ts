@@ -1,4 +1,5 @@
 import * as express from 'express';
+import * as cookieParser from 'cookie-parser';
 import { Note } from './Note';
 import { Sequelize } from 'sequelize-typescript';
 import { AbstractAppConfig } from './typization/abstractClasses';
@@ -20,7 +21,7 @@ export default class AppConfig implements AbstractAppConfig {
         dialectOptions: {
             multipleStatements: true,
         },
-        host: process.env.POSTGRES_HOST || 'postgres',
+        host: process.env.POSTGRES_HOST || 'db_notes',
         port: Number.parseInt(process.env.POSTGRES_PORT, 10) || 5432,
         username: process.env.USER || 'postgres',
         password: process.env.POSTGRES_PASSWORD,
@@ -36,7 +37,7 @@ export default class AppConfig implements AbstractAppConfig {
 
     public configure = (): void => {
         this.app.use(express.json({ limit: '10Kb' }));
-        // this.app.use(cookieParser());
+        this.app.use(cookieParser());
         this.app.use(this.passportConfig.initialize());
         this.app.use(Routes.NOTES, this.router);
         this.app.use(globalErrorController);

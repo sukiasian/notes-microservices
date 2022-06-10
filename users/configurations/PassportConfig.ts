@@ -1,15 +1,14 @@
-import * as passport from "passport";
-import * as express from "express";
-import { Strategy as LocalStrategy } from "passport-local";
-import { Strategy as JwtStrategy } from "passport-jwt";
-import { ExtractJwt, JwtFromRequestFunction } from "passport-jwt";
-import { Logger } from "winston";
-import { dao, Dao } from "../Dao";
-import { User } from "../User";
-import errorLogger from "../loggers/errorLogger";
-import AppError from "../utils/AppError";
-import { AbstractPassportConfig } from "../typization/abstractClasses";
-import { ErrorMessages, HttpStatus, ModelScopes } from "../typization/enums";
+import * as passport from 'passport';
+import * as express from 'express';
+import { Strategy as LocalStrategy } from 'passport-local';
+import { Strategy as JwtStrategy, ExtractJwt, JwtFromRequestFunction } from 'passport-jwt';
+import { Logger } from 'winston';
+import { dao, Dao } from '../Dao';
+import { User } from '../User';
+import errorLogger from '../loggers/errorLogger';
+import AppError from '../utils/AppError';
+import { AbstractPassportConfig } from '../typization/abstractClasses';
+import { ErrorMessages, HttpStatus, ModelScopes } from '../typization/enums';
 
 export class PassportConfig implements AbstractPassportConfig {
     private readonly dao: Dao = dao;
@@ -25,7 +24,7 @@ export class PassportConfig implements AbstractPassportConfig {
         let token: string;
 
         if (req && req.cookies) {
-            token = req.cookies["jwt"];
+            token = req.cookies['jwt'];
         }
 
         return token;
@@ -35,34 +34,26 @@ export class PassportConfig implements AbstractPassportConfig {
         this.passport.use(
             new LocalStrategy(
                 {
-                    usernameField: "email",
-                    passwordField: "password",
+                    usernameField: 'email',
+                    passwordField: 'password',
                     session: false,
                 },
                 async (email, password, done) => {
                     try {
                         let user: User;
 
-                        user = await this.model
-                            .scope(ModelScopes.WITH_SENSITIVE)
-                            .findOne({ where: { email } });
+                        user = await this.model.scope(ModelScopes.WITH_SENSITIVE).findOne({ where: { email } });
 
                         if (!user) {
                             return done(
-                                new AppError(
-                                    HttpStatus.UNAUTHORIZED,
-                                    ErrorMessages.USERNAME_OR_PASSWORD_INCORRECT
-                                ),
+                                new AppError(HttpStatus.UNAUTHORIZED, ErrorMessages.USERNAME_OR_PASSWORD_INCORRECT),
                                 false
                             );
                         }
 
                         if (!(await user.verifyPassword(user)(password))) {
                             return done(
-                                new AppError(
-                                    HttpStatus.UNAUTHORIZED,
-                                    ErrorMessages.USERNAME_OR_PASSWORD_INCORRECT
-                                )
+                                new AppError(HttpStatus.UNAUTHORIZED, ErrorMessages.USERNAME_OR_PASSWORD_INCORRECT)
                             );
                         }
 
@@ -97,13 +88,7 @@ export class PassportConfig implements AbstractPassportConfig {
                         });
 
                         if (!user) {
-                            return done(
-                                new AppError(
-                                    HttpStatus.FORBIDDEN,
-                                    ErrorMessages.USER_NOT_FOUND
-                                ),
-                                false
-                            );
+                            return done(new AppError(HttpStatus.FORBIDDEN, ErrorMessages.USER_NOT_FOUND), false);
                         }
 
                         return done(null, { id: user.id });

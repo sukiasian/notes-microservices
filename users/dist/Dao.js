@@ -8,22 +8,32 @@ class Dao extends abstractClasses_1.AbstractDao {
         super(...arguments);
         this.userModel = User_1.User;
         this.createUser = async (data) => {
-            return this.model.create(data, { fields: User_1.createUserFields });
+            return await User_1.User.create(data, {
+                fields: User_1.createUserFields,
+            });
         };
         this.getUserById = async (id) => {
             return this.findById(id);
         };
-        this.editUser = async (data) => {
-            const user = await this.findById(data.id);
-            user.update(data, { fields: User_1.editUserFields });
+        this.editUser = async (userId, data) => {
+            const user = await this.findById(userId);
+            await user.update(data, { fields: User_1.editUserFields });
         };
         this.deleteUser = async (data) => {
             const user = await this.findById(data.id);
             user.destroy();
         };
+        this.getAllEmails = async () => {
+            const users = await this.model.findAll();
+            let emails;
+            users.forEach((user) => {
+                emails.push(user.email);
+            });
+            return emails;
+        };
     }
     get model() {
-        return this.model;
+        return this.userModel;
     }
 }
 exports.Dao = Dao;

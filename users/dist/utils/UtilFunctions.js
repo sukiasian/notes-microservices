@@ -34,7 +34,7 @@ UtilFunctions.signTokenAndStoreInCookies = async (res, jwtPayload, signOptions =
     if (process.env.NODE_ENV === enums_1.NodeEnvs.PRODUCTION) {
         cookieOptions.secure = true;
     }
-    res.cookie("jwt", token, cookieOptions);
+    res.cookie('jwt', token, cookieOptions);
 };
 UtilFunctions.sendResponse = (res) => {
     return (statusCode, message, data) => {
@@ -66,54 +66,54 @@ UtilFunctions.sendResponse = (res) => {
 };
 UtilFunctions.exitHandler = (server, sequelize) => {
     process
-        .on("unhandledRejection", (reason, p) => {
-        console.error(reason, "Unhandled Rejection at Promise", p);
+        .on('unhandledRejection', (reason, p) => {
+        console.error(reason, 'Unhandled Rejection at Promise', p);
         server.close((err) => {
             if (err) {
                 UtilFunctions.errorLogger.error(err);
                 process.exit(1);
             }
             sequelize.close().then(() => {
-                UtilFunctions.errorLogger.error("Sequelize connection disconnected");
+                UtilFunctions.errorLogger.error('Sequelize connection disconnected');
                 process.exit(0);
             });
         });
     })
-        .on("uncaughtException", (err) => {
-        UtilFunctions.errorLogger.error("Uncaught Exception thrown");
+        .on('uncaughtException', (err) => {
+        UtilFunctions.errorLogger.error('Uncaught Exception thrown', err);
         server.close((err) => {
             if (err) {
                 UtilFunctions.errorLogger.error(err);
                 process.exit(1);
             }
             sequelize.close().then(() => {
-                UtilFunctions.informationalLogger.info("Sequelize connection disconnected");
+                UtilFunctions.informationalLogger.info('Sequelize connection disconnected');
                 process.exit(0);
             });
         });
     })
-        .on("SIGTERM", () => {
-        console.info("SIGTERM signal received.");
+        .on('SIGTERM', () => {
+        console.info('SIGTERM signal received.');
         server.close((err) => {
             if (err) {
                 UtilFunctions.errorLogger.error(err);
                 process.exit(1);
             }
             sequelize.close().then(() => {
-                UtilFunctions.informationalLogger.info("Sequelize connection disconnected");
+                UtilFunctions.informationalLogger.info('Sequelize connection disconnected');
                 process.exit(0);
             });
         });
     })
-        .on("SIGINT", function () {
-        console.info("SIGINT signal received.");
+        .on('SIGINT', function () {
+        console.info('SIGINT signal received.');
         server.close((err) => {
             if (err) {
                 UtilFunctions.errorLogger.error(err);
                 process.exit(1);
             }
             sequelize.close().then(() => {
-                UtilFunctions.informationalLogger.info("Sequelize connection disconnected");
+                UtilFunctions.informationalLogger.info('Sequelize connection disconnected');
                 process.exit(0);
             });
         });

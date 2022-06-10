@@ -3,7 +3,7 @@
     "jest": {
         "moduleFileExtensions": [
             "js",
-            "json",
+            "1",
             "ts"
         ],
         "rootDir": "",
@@ -25,14 +25,17 @@
     "main": "dist/Server.js",
     "type": "commonjs",
     "scripts": {
-        "start": "node ./dist/Server.js",
+        "start": "NODE_ENV=production node ./dist/Server.js",
+        "dev": "NODE_ENV=test nodemon Server.ts",
         "test": "jest --no-cache --detectOpenHandles"
     },
     "author": "Sam Sukiasian",
     "license": "ISC",
     "dependencies": {
+        "cookie-parser": "^1.4.6",
         "dotenv": "^16.0.1",
         "express": "^4.18.1",
+        "kafkajs": "^2.0.2",
         "passport": "^0.6.0",
         "passport-jwt": "^4.0.0",
         "pg": "^8.7.3",
@@ -41,9 +44,11 @@
         "winston": "^3.7.2"
     },
     "devDependencies": {
+        "@types/cookie-parser": "^1.4.3",
         "@types/express": "^4.17.13",
         "@types/faker": "^5.5.8",
         "@types/jest": "^28.1.1",
+        "@types/kafkajs": "^1.9.0",
         "@types/passport": "^1.0.8",
         "@types/passport-jwt": "^3.0.6",
         "@types/pg": "^8.6.5",

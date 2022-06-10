@@ -1,8 +1,8 @@
-import * as passport from "passport";
-import { Router } from "express";
-import { authController, AuthController } from "../controllers/AuthController";
-import { PassportStrategies } from "../typization/enums";
-import { AbstractAuthRouterConfig } from "../typization/abstractClasses";
+import * as passport from 'passport';
+import { Router } from 'express';
+import { authController, AuthController } from '../controllers/AuthController';
+import { PassportStrategies } from '../typization/enums';
+import { AbstractAuthRouterConfig } from '../typization/abstractClasses';
 
 class AuthRouterConfig implements AbstractAuthRouterConfig {
     public router: Router = Router();
@@ -10,17 +10,17 @@ class AuthRouterConfig implements AbstractAuthRouterConfig {
     private readonly passport: passport.PassportStatic = passport;
 
     configure = () => {
-        this.router.post("/signup", this.controller.signupLocal);
+        this.router.post('/signup', this.controller.signupLocal);
 
         this.router.post(
-            "/login",
+            '/login',
             this.passport.authenticate(PassportStrategies.LOCAL, {
                 session: false,
             }),
             this.controller.loginLocal
         );
 
-        this.router.get("/logout", this.controller.logoutLocal);
+        this.router.get('/logout', this.controller.logoutLocal);
     };
 }
 
@@ -28,6 +28,6 @@ const authRouterConfig = new AuthRouterConfig();
 
 authRouterConfig.configure();
 
-const { router: authRouter } = authRouterConfig;
+const authRouter = authRouterConfig.router;
 
 export default authRouter;

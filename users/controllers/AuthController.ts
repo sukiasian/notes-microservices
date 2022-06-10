@@ -17,7 +17,7 @@ export class AuthController implements AbstractAuthController {
             id: user.id,
         });
 
-        return this.utilFunctions.sendResponse(res)(HttpStatus.CREATED, ResponseMessages.USER_IS_SIGNED_UP, user);
+        this.utilFunctions.sendResponse(res)(HttpStatus.CREATED, ResponseMessages.USER_IS_SIGNED_UP, user);
     });
 
     loginLocal = this.utilFunctions.catchAsync(async (req, res, next) => {

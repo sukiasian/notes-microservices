@@ -1,10 +1,24 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.AbstractEnvironmentConfig = exports.AbstractDao = exports.AbstractRouter = exports.AbstractUserController = exports.AbstractAuthController = exports.AbstractServer = exports.AbstractAppConfig = void 0;
+exports.AbstractDao = exports.AbstractUserController = exports.AbstractAuthController = exports.AbstractServer = exports.AbstractUserRouterConfig = exports.AbstractAuthRouterConfig = exports.AbstractPassportConfig = exports.AbstractEnvironmentConfig = exports.AbstractAppConfig = void 0;
 const User_1 = require("../User");
-class AbstractAppConfig {
+class AbstractConfig {
+}
+class AbstractAppConfig extends AbstractConfig {
 }
 exports.AbstractAppConfig = AbstractAppConfig;
+class AbstractEnvironmentConfig extends AbstractConfig {
+}
+exports.AbstractEnvironmentConfig = AbstractEnvironmentConfig;
+class AbstractPassportConfig extends AbstractConfig {
+}
+exports.AbstractPassportConfig = AbstractPassportConfig;
+class AbstractAuthRouterConfig extends AbstractConfig {
+}
+exports.AbstractAuthRouterConfig = AbstractAuthRouterConfig;
+class AbstractUserRouterConfig extends AbstractConfig {
+}
+exports.AbstractUserRouterConfig = AbstractUserRouterConfig;
 class AbstractServer {
 }
 exports.AbstractServer = AbstractServer;
@@ -14,17 +28,11 @@ exports.AbstractAuthController = AbstractAuthController;
 class AbstractUserController {
 }
 exports.AbstractUserController = AbstractUserController;
-class AbstractRouter {
-}
-exports.AbstractRouter = AbstractRouter;
 class AbstractDao {
     constructor() {
-        this.findById = (id) => {
-            return User_1.User.findOne({ where: { id } });
+        this.findById = (id, scope) => {
+            return scope ? User_1.User.scope(scope).findOne({ where: { id } }) : User_1.User.findOne({ where: { id } });
         };
     }
 }
 exports.AbstractDao = AbstractDao;
-class AbstractEnvironmentConfig {
-}
-exports.AbstractEnvironmentConfig = AbstractEnvironmentConfig;

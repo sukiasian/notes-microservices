@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.NodeEnvs = exports.ResponseStatus = exports.ErrorMessages = exports.ResponseMessages = exports.ModelScopes = exports.HttpStatus = void 0;
+exports.Routes = exports.PassportStrategies = exports.NodeEnvs = exports.ResponseStatus = exports.ErrorMessages = exports.ResponseMessages = exports.ModelScopes = exports.HttpStatus = void 0;
 var HttpStatus;
 (function (HttpStatus) {
     HttpStatus[HttpStatus["CONTINUE"] = 100] = "CONTINUE";
@@ -60,8 +60,11 @@ var ModelScopes;
 })(ModelScopes = exports.ModelScopes || (exports.ModelScopes = {}));
 var ResponseMessages;
 (function (ResponseMessages) {
-    ResponseMessages["USER_IS_SIGNED_UP"] = "User is successfully signed up.";
-    ResponseMessages["USER_IS_LOGGED_IN"] = "User is successfully logged in.";
+    ResponseMessages["USER_IS_SIGNED_UP"] = "You are successfully signed up.";
+    ResponseMessages["USER_IS_LOGGED_IN"] = "You are successfully logged in.";
+    ResponseMessages["USER_IS_LOGGED_OUT"] = "You are successfully logged out.";
+    ResponseMessages["USER_DATA_IS_CHANGED"] = "User data is successfully changed";
+    ResponseMessages["INCORRECT_PASSWORD"] = "Incorrect password.";
 })(ResponseMessages = exports.ResponseMessages || (exports.ResponseMessages = {}));
 var ErrorMessages;
 (function (ErrorMessages) {
@@ -72,7 +75,11 @@ var ErrorMessages;
     ErrorMessages["EMAIL_VALIDATION"] = "Please, provide a valid email address.";
     ErrorMessages["UNIQUE_EMAIL_VALIDATION"] = "Account with the provided email address already exists.";
     ErrorMessages["PASSWORD_LENGTH_VALIDATION"] = "Password charachters' length should be in a range of 8 and 50 charachters.";
-    ErrorMessages["PASSWORDS_DO_NOT_MATCH"] = "PASSWORDS_DO_NOT_MATCH";
+    ErrorMessages["PASSWORDS_DO_NOT_MATCH"] = "Passwords do not match.";
+    ErrorMessages["USERNAME_OR_PASSWORD_INCORRECT"] = "Incorrect username or password.";
+    ErrorMessages["USER_NOT_FOUND"] = "User is not found.";
+    ErrorMessages["NOT_AUTHORIZED"] = "Please, authorize.";
+    ErrorMessages["USER_IS_DELETED"] = "We will miss you :/";
 })(ErrorMessages = exports.ErrorMessages || (exports.ErrorMessages = {}));
 var ResponseStatus;
 (function (ResponseStatus) {
@@ -86,3 +93,13 @@ var NodeEnvs;
     NodeEnvs["DEVELOPMENT"] = "development";
     NodeEnvs["TEST"] = "test";
 })(NodeEnvs = exports.NodeEnvs || (exports.NodeEnvs = {}));
+var PassportStrategies;
+(function (PassportStrategies) {
+    PassportStrategies["LOCAL"] = "local";
+    PassportStrategies["JWT"] = "jwt";
+})(PassportStrategies = exports.PassportStrategies || (exports.PassportStrategies = {}));
+var Routes;
+(function (Routes) {
+    Routes["AUTH"] = "/api/v1/auth";
+    Routes["USER"] = "/api/v1/user";
+})(Routes = exports.Routes || (exports.Routes = {}));

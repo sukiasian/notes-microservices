@@ -8,6 +8,7 @@ import { Routes } from './typization/enums';
 import userRouter from './routers/UserRouterConfig';
 import authRouter from './routers/AuthRouterConfig';
 import { passportConfig, PassportConfig } from './configurations/PassportConfig';
+import { KafkaReceiver, KafkaSender } from './kafka';
 
 export default class AppConfig implements AbstractAppConfig {
     private readonly passportConfig: PassportConfig = passportConfig;
@@ -36,6 +37,16 @@ export default class AppConfig implements AbstractAppConfig {
         this.app.use(this.passportConfig.initialize());
         this.app.use(Routes.AUTH, authRouter);
         this.app.use(Routes.USER, userRouter);
+        this.app.get('/abc', (req, res) => {
+            res.send('helloworld');
+        });
         this.app.use(globalErrorController);
+    };
+
+    public startConsumptionForActiveProducers = (): void => {
+        const producer = new KafkaSender();
+        const consumer = new KafkaReceiver();
+
+        consumer.acceptJwt(producer.queueUserData);
     };
 }

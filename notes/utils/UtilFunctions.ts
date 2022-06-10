@@ -70,7 +70,7 @@ export default class UtilFunctions {
                 });
             })
             .on('uncaughtException', (err) => {
-                UtilFunctions.errorLogger.error('Uncaught Exception thrown');
+                UtilFunctions.errorLogger.error('Uncaught Exception thrown', err);
                 server.close((err: any) => {
                     if (err) {
                         UtilFunctions.errorLogger.error(err);

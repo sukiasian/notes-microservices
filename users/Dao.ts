@@ -10,7 +10,7 @@ export class Dao extends AbstractDao implements AbstractDao {
     }
 
     public createUser = async (data: CreateUserData) => {
-        return this.model.create(data, {
+        return await User.create(data, {
             fields: createUserFields,
         });
     };

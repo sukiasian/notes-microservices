@@ -10,7 +10,7 @@ import { CreateNoteData } from '../typization/interfaces';
 
 const environmentConfig = new EnvironmentConfig();
 
-environmentConfig.configure('./.env.test');
+environmentConfig.configure();
 
 export default class TestLib {
     private faker = faker;
