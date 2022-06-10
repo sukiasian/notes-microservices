@@ -1,6 +1,6 @@
 import { Router } from 'express';
 import { PassportStatic } from 'passport';
-import passport = require('passport');
+import * as passport from 'passport';
 import { userController, UserController } from '../controllers/UserController';
 import { AbstractUserRouterConfig } from '../typization/abstractClasses';
 import { PassportStrategies } from '../typization/enums';
@@ -32,6 +32,8 @@ class UserRouterConfig implements AbstractUserRouterConfig {
                 }),
                 this.controller.editUser
             );
+
+        this.router.route('/isValid/:id').get(this.controller.checkIfUserIsValid);
     };
 }
 

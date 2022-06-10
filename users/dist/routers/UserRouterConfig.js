@@ -21,6 +21,7 @@ class UserRouterConfig {
                 .put(this.passport.authenticate(enums_1.PassportStrategies.JWT, {
                 session: false,
             }), this.controller.editUser);
+            this.router.route('/isValid/:id').get(this.controller.checkIfUserIsValid);
         };
     }
 }

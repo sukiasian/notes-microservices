@@ -4,12 +4,13 @@ const express = require("express");
 const cookieParser = require("cookie-parser");
 const User_1 = require("./User");
 const sequelize_typescript_1 = require("sequelize-typescript");
+const cors = require("cors");
 const GlobalErrorController_1 = require("./controllers/GlobalErrorController");
 const enums_1 = require("./typization/enums");
 const UserRouterConfig_1 = require("./routers/UserRouterConfig");
 const AuthRouterConfig_1 = require("./routers/AuthRouterConfig");
 const PassportConfig_1 = require("./configurations/PassportConfig");
-const kafka_1 = require("./kafka");
+const AppError_1 = require("./utils/AppError");
 class AppConfig {
     constructor() {
         this.passportConfig = PassportConfig_1.passportConfig;
@@ -27,24 +28,27 @@ class AppConfig {
             models: [User_1.User],
             logging: false,
         });
+        this.corsWhiteList = ['http://notes:8000'];
         this.setupPassport = () => {
             this.passportConfig.configure();
         };
         this.configure = () => {
             this.app.use(express.json({ limit: '10Kb' }));
+            this.app.use(cors({
+                origin: (origin, callback) => {
+                    if (this.corsWhiteList.indexOf(origin) !== -1 || !origin) {
+                        callback(null, true);
+                    }
+                    else {
+                        callback(new AppError_1.default(enums_1.HttpStatus.FORBIDDEN, enums_1.ErrorMessages.NOT_ENOUGH_RIGHTS));
+                    }
+                },
+            }));
             this.app.use(cookieParser());
             this.app.use(this.passportConfig.initialize());
             this.app.use(enums_1.Routes.AUTH, AuthRouterConfig_1.default);
             this.app.use(enums_1.Routes.USER, UserRouterConfig_1.default);
-            this.app.get('/abc', (req, res) => {
-                res.send('helloworld');
-            });
             this.app.use(GlobalErrorController_1.default);
-        };
-        this.startConsumptionForActiveProducers = () => {
-            const producer = new kafka_1.KafkaSender();
-            const consumer = new kafka_1.KafkaReceiver();
-            consumer.acceptJwt(producer.queueUserData);
         };
     }
 }

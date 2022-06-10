@@ -32,6 +32,14 @@ class UserController {
             const emails = await this.dao.getAllEmails();
             return this.utilFunctions.sendResponse(res)(enums_1.HttpStatus.OK, null, emails);
         });
+        this.checkIfUserIsValid = this.utilFunctions.catchAsync(async (req, res, next) => {
+            const { id } = req.params;
+            const user = await this.dao.findById(id);
+            const userExists = user ? true : false;
+            return userExists
+                ? this.utilFunctions.sendResponse(res)(enums_1.HttpStatus.OK, user ? enums_1.ResponseMessages.USER_EXISTS : enums_1.ResponseMessages.USER_DOES_NOT_EXIST)
+                : this.utilFunctions.sendResponse(res)(enums_1.HttpStatus.NOT_FOUND, enums_1.ResponseMessages.USER_DOES_NOT_EXIST);
+        });
     }
 }
 exports.UserController = UserController;

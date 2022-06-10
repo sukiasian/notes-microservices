@@ -1,0 +1,14 @@
+version: "3.4"
+services:
+    emails:
+        container_name: emails
+        build: .
+        ports:
+            - 8000
+        volumes:
+            - .:/code
+        networks:
+            - notes-microservices-network
+networks:
+    notes-microservices-network:
+        external: true

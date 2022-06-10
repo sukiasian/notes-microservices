@@ -5,17 +5,20 @@ const Dao_1 = require("../Dao");
 const UtilFunctions_1 = require("../utils/UtilFunctions");
 const enums_1 = require("../typization/enums");
 const AppError_1 = require("../utils/AppError");
+const kafka_1 = require("../kafka");
 class AuthController {
     constructor() {
         this.dao = Dao_1.dao;
         this.utilFunctions = UtilFunctions_1.default;
+        this.kafkaSender = new kafka_1.KafkaSender();
         this.signupLocal = this.utilFunctions.catchAsync(async (req, res, next) => {
             const createUserData = req.body;
             const user = await this.dao.createUser(createUserData);
             await this.utilFunctions.signTokenAndStoreInCookies(res, {
                 id: user.id,
             });
-            this.utilFunctions.sendResponse(res)(enums_1.HttpStatus.CREATED, enums_1.ResponseMessages.USER_IS_SIGNED_UP, user);
+            await this.kafkaSender.queueNewUserEmail(user.email);
+            return this.utilFunctions.sendResponse(res)(enums_1.HttpStatus.CREATED, enums_1.ResponseMessages.USER_IS_SIGNED_UP, user);
         });
         this.loginLocal = this.utilFunctions.catchAsync(async (req, res, next) => {
             const user = await this.dao.findById(req.user.id);

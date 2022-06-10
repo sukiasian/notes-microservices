@@ -1,12 +1,8 @@
 import * as nodemailer from "nodemailer";
 import EmailOptions from "./EmailOptions";
 
-class Mailer {
-    sendMail = async <TLocals>(
-        options: EmailOptions,
-        relativePathToTemplate?: string,
-        locals?: TLocals
-    ): Promise<void> => {
+export default class Mailer {
+    sendMail = async (options: EmailOptions): Promise<void> => {
         try {
             const transporter = nodemailer.createTransport({
                 host: process.env.EMAIL_HOST,
@@ -18,11 +14,6 @@ class Mailer {
             } as nodemailer.TransportOptions);
 
             let html: string;
-
-            // if (relativePathToTemplate) {
-            //     const pugTemplate = pug.compileFile(path.resolve('emails', 'templates', relativePathToTemplate));
-            //     html = pugTemplate(locals);
-            // }
 
             const mailOptions = {
                 from: options.from,

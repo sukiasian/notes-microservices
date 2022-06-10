@@ -12,9 +12,9 @@ class NoteRouterConfig {
         this.configure = () => {
             this.router
                 .route('/')
-                .post(this.noteController.extractUserWithJwt, (req, res, next) => {
-                console.log(res.locals);
-            }, this.noteController.createNote)
+                .post(this.passport.authenticate(enums_1.PassportStrategies.JWT, {
+                session: false,
+            }), this.noteController.createNote)
                 .get(this.passport.authenticate(enums_1.PassportStrategies.JWT, {
                 session: false,
             }), this.noteController.getUserNotes);

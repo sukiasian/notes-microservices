@@ -20,4 +20,3 @@ Before starting working with microservices please make sure that all 3 of them a
 -   Scalability
 -   Database persistance
 -   Object orientation
--   Swagger

@@ -4,8 +4,9 @@ export default class EmailOptions {
     subject: string;
     text?: string;
 
-    constructor(to: string, text?: string) {
+    constructor(to: string, subject: string, text?: string) {
         this.to = to;
+        this.subject = subject;
 
         if (text) {
             this.text = text;

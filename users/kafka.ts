@@ -1,6 +1,6 @@
-import { Kafka, KafkaMessage } from 'kafkajs';
+import { Kafka } from 'kafkajs';
 import { User } from './User';
-import { serialize, deserialize } from 'v8';
+import { serialize } from 'v8';
 
 export class KafkaSender {
     private readonly model: typeof User = User;
@@ -10,15 +10,13 @@ export class KafkaSender {
     });
     private readonly producer = this.kafkaClient.producer();
 
-    public queueUserData = async (userId: string) => {
-        const user = await this.model.findOne({ where: { id: userId } });
-
+    public queueNewUserEmail = async (email: string) => {
         await this.producer.connect();
         await this.producer.send({
-            topic: 'user-data',
+            topic: 'new-user-email',
             messages: [
                 {
-                    value: serialize(user),
+                    value: serialize(email),
                 },
             ],
         });
@@ -34,22 +32,4 @@ export class KafkaReceiver {
         brokers: [process.env.KAFKA_BROKER],
     });
     private readonly consumer = this.kafkaClient.consumer({ groupId: 'passport-group' });
-
-    public acceptJwt = async (cb: (jwt: string) => Promise<void>) => {
-        try {
-            await this.consumer.connect();
-            await this.consumer.subscribe({ topic: 'jwt', fromBeginning: true });
-
-            let id: string | KafkaMessage;
-
-            await this.consumer.run({
-                eachMessage: async ({ topic, partition, message }) => {
-                    id = deserialize(message.value).id;
-                    cb(id as string);
-                },
-            });
-        } catch {
-            throw new Error('Something went wrong.');
-        }
-    };
 }

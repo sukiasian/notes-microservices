@@ -1,6 +1,4 @@
 import AppConfig from './AppConfig';
-import * as jwt from 'jsonwebtoken';
-import * as dotenv from 'dotenv';
 import UtilFunctions from './utils/UtilFunctions';
 import databaseConnection from './database/connectToDb';
 import { AbstractServer } from './typization/abstractClasses';
@@ -35,8 +33,6 @@ export const appConfig = new AppConfig();
 
 appConfig.setupPassport();
 appConfig.configure();
-console.log(process.env.KAFKA_BROKER);
-appConfig.startConsumptionForActiveProducers();
 
 const server = new Server();
 

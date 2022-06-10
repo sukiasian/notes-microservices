@@ -10,7 +10,7 @@ export default class NoteController implements AbstractNoteController {
 
     public createNote = this.utilFunctions.catchAsync(async (req, res, next) => {
         const createNoteData: CreateNoteData = req.body;
-        const note = await this.dao.createNote(createNoteData);
+        const note = await this.dao.createNote({ userId: req.user.id, ...createNoteData });
 
         return this.utilFunctions.sendResponse(res)(HttpStatus.CREATED, ResponseMessages.NOTE_IS_CREATED, note);
     });

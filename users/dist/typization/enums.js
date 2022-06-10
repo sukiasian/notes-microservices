@@ -65,6 +65,8 @@ var ResponseMessages;
     ResponseMessages["USER_IS_LOGGED_OUT"] = "You are successfully logged out.";
     ResponseMessages["USER_DATA_IS_CHANGED"] = "User data is successfully changed";
     ResponseMessages["INCORRECT_PASSWORD"] = "Incorrect password.";
+    ResponseMessages["USER_EXISTS"] = "User exists.";
+    ResponseMessages["USER_DOES_NOT_EXIST"] = "User does not exist.";
 })(ResponseMessages = exports.ResponseMessages || (exports.ResponseMessages = {}));
 var ErrorMessages;
 (function (ErrorMessages) {
@@ -80,6 +82,7 @@ var ErrorMessages;
     ErrorMessages["USER_NOT_FOUND"] = "User is not found.";
     ErrorMessages["NOT_AUTHORIZED"] = "Please, authorize.";
     ErrorMessages["USER_IS_DELETED"] = "We will miss you :/";
+    ErrorMessages["NOT_ENOUGH_RIGHTS"] = "Not enough rights.";
 })(ErrorMessages = exports.ErrorMessages || (exports.ErrorMessages = {}));
 var ResponseStatus;
 (function (ResponseStatus) {
@@ -101,5 +104,5 @@ var PassportStrategies;
 var Routes;
 (function (Routes) {
     Routes["AUTH"] = "/api/v1/auth";
-    Routes["USER"] = "/api/v1/user";
+    Routes["USER"] = "/api/v1/users";
 })(Routes = exports.Routes || (exports.Routes = {}));

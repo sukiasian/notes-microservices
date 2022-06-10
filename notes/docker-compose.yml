@@ -1,6 +1,7 @@
 version: '3.4'
 services:
     notes:
+        container_name: notes
         build: .
         ports:
             - 8000

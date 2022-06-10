@@ -27,7 +27,5 @@ environmentConfig.configure();
 exports.appConfig = new AppConfig_1.default();
 exports.appConfig.setupPassport();
 exports.appConfig.configure();
-console.log(process.env.KAFKA_BROKER);
-exports.appConfig.startConsumptionForActiveProducers();
 const server = new Server();
 server.start();

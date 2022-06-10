@@ -1,6 +1,6 @@
 import { Router } from 'express';
 import { PassportStatic } from 'passport';
-import passport = require('passport');
+import * as passport from 'passport';
 import NoteController from './controllers/NoteController';
 import { AbstractNoteRouterConfig } from './typization/abstractClasses';
 import { PassportStrategies } from './typization/enums';

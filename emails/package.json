@@ -4,15 +4,19 @@
     "description": "Notes App Emails Microservice",
     "main": "./dist/Server.js",
     "scripts": {
+        "start": "NODE_ENV=production node ./dist/index.js",
         "test": "jest"
     },
     "author": "Sam Sukiasian",
     "license": "ISC",
     "dependencies": {
         "dotenv": "^16.0.1",
+        "kafkajs": "^2.0.2",
         "nodemailer": "^6.7.5"
     },
     "devDependencies": {
+        "@types/dotenv": "^8.2.0",
+        "@types/kafkajs": "^1.9.0",
         "@types/nodemailer": "^6.4.4"
     }
 }

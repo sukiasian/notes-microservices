@@ -61,6 +61,8 @@ export enum ResponseMessages {
     USER_IS_LOGGED_OUT = 'You are successfully logged out.',
     USER_DATA_IS_CHANGED = 'User data is successfully changed',
     INCORRECT_PASSWORD = 'Incorrect password.',
+    USER_EXISTS = 'User exists.',
+    USER_DOES_NOT_EXIST = 'User does not exist.',
 }
 
 export enum ErrorMessages {
@@ -76,6 +78,7 @@ export enum ErrorMessages {
     USER_NOT_FOUND = 'User is not found.',
     NOT_AUTHORIZED = 'Please, authorize.',
     USER_IS_DELETED = 'We will miss you :/',
+    NOT_ENOUGH_RIGHTS = 'Not enough rights.',
 }
 
 export enum ResponseStatus {
@@ -97,5 +100,5 @@ export enum PassportStrategies {
 
 export enum Routes {
     AUTH = '/api/v1/auth',
-    USER = '/api/v1/user',
+    USER = '/api/v1/users',
 }

@@ -43,6 +43,19 @@ export class UserController implements AbstractUserController {
 
         return this.utilFunctions.sendResponse(res)(HttpStatus.OK, null, emails);
     });
+
+    public checkIfUserIsValid = this.utilFunctions.catchAsync(async (req, res, next) => {
+        const { id } = req.params;
+        const user = await this.dao.findById(id);
+        const userExists = user ? true : false;
+
+        return userExists
+            ? this.utilFunctions.sendResponse(res)(
+                  HttpStatus.OK,
+                  user ? ResponseMessages.USER_EXISTS : ResponseMessages.USER_DOES_NOT_EXIST
+              )
+            : this.utilFunctions.sendResponse(res)(HttpStatus.NOT_FOUND, ResponseMessages.USER_DOES_NOT_EXIST);
+    });
 }
 
 export const userController = new UserController();

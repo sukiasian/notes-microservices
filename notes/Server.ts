@@ -2,7 +2,6 @@ import AppConfig from './AppConfig';
 import UtilFunctions from './utils/UtilFunctions';
 import databaseConnection from './database/connectToDb';
 import { AbstractServer } from './typization/abstractClasses';
-import { NodeEnvs } from './typization/enums';
 import informationalLogger from './loggers/informationalLogger';
 import { Logger } from 'winston';
 import { Application } from 'express';

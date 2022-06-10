@@ -1,10 +1,10 @@
-# 1. Getting started with Users Microservice
+# 1. Getting started with Notes Microservice
 
 # 1.1. Composing docker container
 
-Switch to users directory from notes-microservices:
+Switch to notes directory from notes-microservices:
 
-\$ cd users
+\$ cd notes
 
 Then start a composed docker container by command:
 

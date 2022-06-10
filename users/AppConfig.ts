@@ -2,13 +2,14 @@ import * as express from 'express';
 import * as cookieParser from 'cookie-parser';
 import { User } from './User';
 import { Sequelize } from 'sequelize-typescript';
+import * as cors from 'cors';
 import { AbstractAppConfig } from './typization/abstractClasses';
 import globalErrorController from './controllers/GlobalErrorController';
-import { Routes } from './typization/enums';
+import { ErrorMessages, HttpStatus, Routes } from './typization/enums';
 import userRouter from './routers/UserRouterConfig';
 import authRouter from './routers/AuthRouterConfig';
 import { passportConfig, PassportConfig } from './configurations/PassportConfig';
-import { KafkaReceiver, KafkaSender } from './kafka';
+import AppError from './utils/AppError';
 
 export default class AppConfig implements AbstractAppConfig {
     private readonly passportConfig: PassportConfig = passportConfig;
@@ -26,6 +27,7 @@ export default class AppConfig implements AbstractAppConfig {
         models: [User],
         logging: false,
     });
+    private readonly corsWhiteList = ['http://notes:8000'];
 
     public setupPassport = () => {
         this.passportConfig.configure();
@@ -33,20 +35,21 @@ export default class AppConfig implements AbstractAppConfig {
 
     public configure = (): void => {
         this.app.use(express.json({ limit: '10Kb' }));
+        this.app.use(
+            cors({
+                origin: (origin, callback) => {
+                    if (this.corsWhiteList.indexOf(origin) !== -1 || !origin) {
+                        callback(null, true);
+                    } else {
+                        callback(new AppError(HttpStatus.FORBIDDEN, ErrorMessages.NOT_ENOUGH_RIGHTS));
+                    }
+                },
+            })
+        );
         this.app.use(cookieParser());
         this.app.use(this.passportConfig.initialize());
         this.app.use(Routes.AUTH, authRouter);
         this.app.use(Routes.USER, userRouter);
-        this.app.get('/abc', (req, res) => {
-            res.send('helloworld');
-        });
         this.app.use(globalErrorController);
-    };
-
-    public startConsumptionForActiveProducers = (): void => {
-        const producer = new KafkaSender();
-        const consumer = new KafkaReceiver();
-
-        consumer.acceptJwt(producer.queueUserData);
     };
 }

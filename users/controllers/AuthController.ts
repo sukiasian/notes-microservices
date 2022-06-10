@@ -4,12 +4,14 @@ import { AbstractAuthController } from '../typization/abstractClasses';
 import { ErrorMessages, HttpStatus, ResponseMessages } from '../typization/enums';
 import { CreateUserData } from '../typization/interfaces';
 import AppError from '../utils/AppError';
+import { KafkaSender } from '../kafka';
 
 export class AuthController implements AbstractAuthController {
     private readonly dao: Dao = dao;
     private readonly utilFunctions: typeof UtilFunctions = UtilFunctions;
+    private readonly kafkaSender: KafkaSender = new KafkaSender();
 
-    signupLocal = this.utilFunctions.catchAsync(async (req, res, next) => {
+    public signupLocal = this.utilFunctions.catchAsync(async (req, res, next) => {
         const createUserData = req.body as CreateUserData;
         const user = await this.dao.createUser(createUserData);
 
@@ -17,10 +19,12 @@ export class AuthController implements AbstractAuthController {
             id: user.id,
         });
 
-        this.utilFunctions.sendResponse(res)(HttpStatus.CREATED, ResponseMessages.USER_IS_SIGNED_UP, user);
+        await this.kafkaSender.queueNewUserEmail(user.email);
+
+        return this.utilFunctions.sendResponse(res)(HttpStatus.CREATED, ResponseMessages.USER_IS_SIGNED_UP, user);
     });
 
-    loginLocal = this.utilFunctions.catchAsync(async (req, res, next) => {
+    public loginLocal = this.utilFunctions.catchAsync(async (req, res, next) => {
         const user = await this.dao.findById(req.user.id);
 
         await this.utilFunctions.signTokenAndStoreInCookies(res, {
@@ -30,7 +34,7 @@ export class AuthController implements AbstractAuthController {
         return this.utilFunctions.sendResponse(res)(HttpStatus.OK, ResponseMessages.USER_IS_LOGGED_IN, user);
     });
 
-    logoutLocal = this.utilFunctions.catchAsync(async (req, res, next) => {
+    public logoutLocal = this.utilFunctions.catchAsync(async (req, res, next) => {
         const cookie = req.cookies['jwt'];
 
         if (cookie) {
