@@ -1,0 +1,176 @@
+swagger: "2.0"
+info:
+  description: "Notes microservice for Notes App."
+  version: "1.0.0"
+  title: "Notes App Notes"
+  contact:
+    email: "sukiasiansam@gmail.com"
+host: "users"
+basePath: "/api/v1"
+tags:
+- name: "notes"
+  description: "Notes CRUD requests"
+schemes:
+- "http"
+paths:
+  /notes:
+    post:
+      tags:
+        - "notes"
+      summary: "Creates a new note."
+      description: "Create a new note for user."
+      operationId: "createNote"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+        - in: "body"
+          name: "body"
+          required: true
+          schema:
+            $ref: "#/definitions/CreateNoteData"
+      security: 
+        - users_auth: []
+      responses:
+        "201":
+          description: "Note created"
+          
+        "403":
+          description: "Please authorize"
+          
+        "500":
+          description: "Internal server error"
+          
+    get:
+      tags:
+        - "notes"
+      summary: "User's notes"
+      description: "Get all user notes"
+      operationId: "getAllNotes"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      security: 
+        - users_auth: []
+      responses:
+        "200":
+            description: "Note created"
+            
+        "403":
+          description: "Please authorize"
+        
+        "500":
+          description: "Internal server error"
+  
+  /notes/{id}:
+    get:
+      tags:
+      - "notes"
+      summary: "Get note."
+      description: "Get note by id."
+      operationId: "getNoteById"
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      parameters:
+        - in: "path"
+          name: "id"
+          description: "ID of note to get"
+          required: true
+          type: string
+      security: 
+        - users_auth: []
+      responses:
+        "200":
+            description: "Note is found"
+            
+        "401":
+          description: "Please authorize."
+          
+        "404": 
+          description: "Note is not found."
+  
+    put:
+      tags:
+      - "notes"
+      summary: "Edit note."
+      description: "Edit note by id."
+      operationId: "editNoteById"
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      parameters:
+        - in: "path"
+          name: "id"
+          required: true
+          type: string
+        
+        - in: "body"
+          name: "body"
+          required: true
+          schema: 
+            $ref: "#/definitions/EditNoteData"
+      security: 
+        - users_auth: []
+      responses:
+        "200":
+            description: "Note is changed."
+    
+        "404":
+          description: "Please authorize"
+          
+        "500": 
+          description: "Internal server error."
+        
+    delete: 
+      tags: 
+      - "notes"
+      summary: "Delete note."
+      description: "Delete note by note id"
+      operationId: "deleteNote"
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      parameters:
+        - in: "path"
+          name: "id"
+          required: true
+          type: string
+      security: 
+        - users_auth: []
+      responses:
+        "200":
+            description: "User is deleted."
+        "401":
+          description: "Unauthorized."
+        "404": 
+          description: "User is not found."
+        "500":
+          description: "User is not found."
+        
+        
+securityDefinitions:
+  users_auth:
+    type: "basic"
+    
+definitions:
+  CreateNoteData: 
+    type: "object"
+    properties:
+      content:
+        type: "string"
+    xml:
+      name: "CreateNoteData"
+  
+  EditNoteData:
+    type: "object"
+    properties:
+      content:
+        type: "string"
+    xml: 
+      name: "EditNoteData"
